@@ -37,7 +37,7 @@
     </head>
 
     <body>
-        <h1> POTD 5: User Table </h1>
+        <h1>User Form</h1>
 
         <form name="mainForm" action="userform.php" method="post">
             <div class="row mb-3 mx-3">
