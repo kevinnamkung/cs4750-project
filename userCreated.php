@@ -4,14 +4,22 @@
 
     $list_of_users = getAllUsers();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-        if (!empty($_POST['userSubmit']))
-        {
-            addUser($_POST['firstname'], $_POST['lastname'], $_POST['email']);
-            $list_of_users = getAllUsers();  
-        }
-    }
+    // if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    //     {
+    //     if (!empty($_POST['userSubmit']))
+    //     {
+    //         addUser($_POST['firstname'], $_POST['lastname'], $_POST['email']);
+    //         $list_of_users = getAllUsers();  
+    //     }
+    // }
+    // Initialize the session
+    session_start();
+    
+    //check if user is logged in
+    // if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    //     header("location: userLogin.php");
+    //     exit;
+    // }
 ?>
 
 <html>
@@ -43,9 +51,6 @@
             <br>
             <h2>Account Successfully Created!</h2>
             <h4>Review your information below:<h4>
-            
-            <?php $userID = $_GET['userID'];
-            echo "The user ID is: " . $userID;?>
             
 
             
