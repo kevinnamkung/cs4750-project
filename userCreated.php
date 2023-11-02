@@ -35,7 +35,7 @@
             }
         </style>
     </head>
-    
+     
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
 
