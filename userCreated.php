@@ -2,24 +2,14 @@
     require("connect-db.php");
     require("userdb.php");
 
-    $list_of_users = getAllUsers();
-
-    // if ($_SERVER['REQUEST_METHOD'] == 'POST')
-    //     {
-    //     if (!empty($_POST['userSubmit']))
-    //     {
-    //         addUser($_POST['firstname'], $_POST['lastname'], $_POST['email']);
-    //         $list_of_users = getAllUsers();  
-    //     }
-    // }
-    // Initialize the session
     session_start();
     
     //check if user is logged in
-    // if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    //     header("location: userLogin.php");
-    //     exit;
-    // }
+    if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
+        header("location: userLogin.php");
+        exit;
+    }
+
 ?>
 
 <html>
@@ -52,8 +42,16 @@
             <h2>Account Successfully Created!</h2>
             <h4>Review your information below:<h4>
             
-
-            
+            <h5><b>First Name: </b><?php echo htmlspecialchars($_SESSION["firstName"]); ?></h5>
+            <h5><b>Last Name: </b><?php echo htmlspecialchars($_SESSION["lastName"]); ?></h5>
+            <h5><b>Email: </b><?php echo htmlspecialchars($_SESSION["email"]); ?></h5>
+            <form method="post" action="userCreated.php">
+                <div class="row mb-3 mx-3">
+                    <input type = "submit" value = "Update Info" name = "update"
+                        class="btn btn-primary" title= "update info" />
+                </div>
+            </form>
+            <a href="userHub.php" class = "button">User Hub</a>
         </body_x>
     
     </body>
