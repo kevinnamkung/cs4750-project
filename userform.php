@@ -5,11 +5,18 @@
     $list_of_users = getAllUsers();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
+    {
         if (!empty($_POST['userSubmit']))
-        {
-            addUser($_POST['firstname'], $_POST['lastname'], $_POST['email']);
-            $list_of_users = getAllUsers();  
+        {   
+            //validate password
+            $password = $_POST["pw"];
+            $confirm_password = $_POST["confirm_pw"];
+            
+            if ($password !== $confirm_password) {
+                $message_pass = "Passwords do not match";
+            } else {
+                addUser($_POST['firstname'], $_POST['lastname'], $_POST['email'], $password);
+            }
         }
     }
 ?>
@@ -54,6 +61,14 @@
             <div class="row mb-3 mx-3">
                 Email:
                 <input type="text" class="form-control" name="email" required/>        
+            </div>
+            <div class="row mb-3 mx-3">
+                Password:
+                <input type="text" class="form-control" name="pw" required/>        
+            </div>
+            <div class="row mb-3 mx-3">
+                Confirm Password:
+                <input type="text" class="form-control" name="confirm_pw" required/>        
             </div>
             <div class="row mb-3 mx-3">
                 <input type = "submit" value = "Create Account" name = "userSubmit"
