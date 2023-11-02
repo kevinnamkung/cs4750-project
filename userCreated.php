@@ -35,31 +35,21 @@
             }
         </style>
     </head>
-
+    
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
 
         <body_x>
-        <br>
-        <h1>User Sign Up</h1>
-        <form name="userSignUp" action="userCreated.php?userID=<?php echo $userID; ?>" method="post">
-            <div class="row mb-3 mx-3">
-                First Name:
-                <input type="text" class="form-control" name="firstname" required/>
-            </div>
-            <div class="row mb-3 mx-3">
-                Last Name:
-                <input type="text" class="form-control" name="lastname" required/>      
-            </div>  
-            <div class="row mb-3 mx-3">
-                Email:
-                <input type="text" class="form-control" name="email" required/>        
-            </div>
-            <div class="row mb-3 mx-3">
-                <input type = "submit" value = "Create Account" name = "userSubmit"
-                    class="btn btn-primary" title= "Add User" />
-            </div>
-        </form> 
+            <br>
+            <h2>Account Successfully Created!</h2>
+            <h4>Review your information below:<h4>
+            
+            <?php $userID = $_GET['userID'];
+            echo "The user ID is: " . $userID;?>
+            
+
+            
         </body_x>
-    </body> 
+    
+    </body>
 </html>
