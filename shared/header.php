@@ -16,7 +16,7 @@
                         <a class="nav-link" href="#">Teams</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Players</a>
+                        <a class="nav-link" href="playersform.php">Players</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Users</a>

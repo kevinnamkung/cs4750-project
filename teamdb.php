@@ -1,11 +1,11 @@
 <?php
 function addTeam($firstname, $lastname, $email) 
 {
-//   global $db; 
+   global $db; 
 // //   $query = "insert into friends values ('" . $friendname . "', '" . $major . "'," . $year .") ";
 //   //=$db->query($query);  // compile + exe
 
-//   $query = "INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)";
+   $query = "INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)";
 //   // prepare: 
 //   // 1. prepare (compile) 
 //   // 2. bindValue + exe
