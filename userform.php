@@ -5,7 +5,7 @@
     $list_of_users = getAllUsers();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
-    {
+    {   
         if (!empty($_POST['userSubmit']))
         {   
             //validate password
@@ -18,7 +18,7 @@
                 addUser($_POST['firstname'], $_POST['lastname'], $_POST['email'], $password);
             }
         }
-    }
+    } 
 ?>
 
 <html>
@@ -49,7 +49,7 @@
         <body_x>
         <br>
         <h1>User Sign Up</h1>
-        <form name="userSignUp" action="userCreated.php" method="post">
+        <form name="userSignUp" action="userform.php" method="post">
             <div class="row mb-3 mx-3">
                 First Name:
                 <input type="text" class="form-control" name="firstname" required/>
@@ -64,11 +64,11 @@
             </div>
             <div class="row mb-3 mx-3">
                 Password:
-                <input type="text" class="form-control" name="pw" required/>        
+                <input type="password" class="form-control" name="pw" required/>        
             </div>
             <div class="row mb-3 mx-3">
                 Confirm Password:
-                <input type="text" class="form-control" name="confirm_pw" required/>        
+                <input type="password" class="form-control" name="confirm_pw" required/>        
             </div>
             <div class="row mb-3 mx-3">
                 <input type = "submit" value = "Create Account" name = "userSubmit"
