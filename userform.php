@@ -42,7 +42,7 @@
         <body_x>
         <br>
         <h1>User Sign Up</h1>
-        <form name="userSignUp" method="post">
+        <form name="userSignUp" action="userCreated.php" method="post">
             <div class="row mb-3 mx-3">
                 First Name:
                 <input type="text" class="form-control" name="firstname" required/>
