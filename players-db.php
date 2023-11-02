@@ -14,7 +14,7 @@ function filterPlayers($playerName, $position, $club, $nationality)
 {
     global $db;
 
-    $query = "SELECT * FROM Players WHERE 1=1"; // Starting with a true condition
+    $query = "select * from Players WHERE 1=1"; // Starting with a true condition
     
     // Add conditions for filtering if criteria are provided
     if ($playerName !== null && !empty($playerName)) {
