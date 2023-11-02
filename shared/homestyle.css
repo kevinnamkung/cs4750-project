@@ -1,0 +1,16 @@
+.button {
+    display: inline-block;
+    padding: 10px 20px; /* Adjust the padding as needed for your button size */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underlining from the link */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Change the button appearance on hover */
+.button:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+    color: #fff; /* Specify the text color on hover to ensure it remains visible */
+    cursor: pointer; /* Change cursor to pointer on hover for better user feedback */
+}

@@ -37,6 +37,7 @@
     </head>
 
     <body>
+        <?php include('shared/header.php'); ?>
         <h1>User Form</h1>
 
         <form name="mainForm" action="userform.php" method="post">
