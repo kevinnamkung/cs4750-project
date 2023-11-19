@@ -106,4 +106,9 @@ function loginUser($email, $password)
   }
   
 }
+
+function displayTeams($userID){
+  global $db;
+  $query = "select * from User where email = :email";
+}
 ?>

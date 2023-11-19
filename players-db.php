@@ -2,7 +2,29 @@
 function getAllPlayers()
 {
   global $db;
-  $query = "select * from Players";
+  $query = "SELECT * FROM Players;"; 
+//   $query = "SELECT
+//         Players.playerName,
+//         Players.position,
+//         Players.nationality,
+//         Players.club,
+//         Forward.goals,
+//         Forward.shots,
+//         Forward.assists,
+//         Midfielder.duelsWon,
+//         Midfielder.passes,
+//         Midfielder.assists,
+//         Defender.cleanSheets,
+//         Defender.tackleSuccess,
+//         Goalkeepers.cleanSheets,
+//         Goalkeepers.saves
+//     FROM
+//     Players
+//     LEFT JOIN Forward ON Players.playerName = Forward.playerName
+//     LEFT JOIN Midfielder ON Players.playerName = Midfielder.playerName
+//     LEFT JOIN Defender ON Players.playerName = Defender.playerName
+//     LEFT JOIN Goalkeepers ON Players.playerName = Goalkeepers.playerName;
+//     ";
   $statement = $db->prepare($query); 
   $statement->execute();
   $results = $statement->fetchAll();   // fetch()
@@ -14,8 +36,29 @@ function filterPlayers($playerName, $position, $club, $nationality)
 {
     global $db;
 
-    $query = "select * from Players WHERE 1=1"; // Starting with a true condition
+    $query = "select * from Players"; // Starting with a true condition
     
+    if ($position !== null && !empty($position)) {
+        //$query .= " AND position = :position";
+        if($position = "Forward") {
+            $query .= " NATURAL JOIN Forward";
+
+        }
+        if($position = "Midfielder") {
+            $query .= " NATURAL JOIN Midfielder";
+
+        }
+        if($position = "Defender") {
+            $query .= " NATURAL JOIN Defender";
+
+        }
+        if($position = "Goalkeeper") {
+            $query .= " NATURAL JOIN Goalkeepers";
+        }
+    }
+
+    $query .= " WHERE 1=1";
+
     // Add conditions for filtering if criteria are provided
     if ($playerName !== null && !empty($playerName)) {
         $query .= " AND playerName = :playerName";
@@ -23,13 +66,6 @@ function filterPlayers($playerName, $position, $club, $nationality)
         //    $query .= " AND";
         //}
         
-    }
-    
-    if ($position !== null && !empty($position)) {
-        $query .= " AND position = :position";
-        //if ($club!=NULL or $nationality !=NULL){
-        //    $query .= " AND";
-        //}
     }
     
     if ($club !== null && !empty($club)) {

@@ -51,10 +51,12 @@ require("userdb.php");
         </ol>
 
         <a href="userform.php" class = "button">Create an account now</a>
-        
-        <br>
+
+        <h3>or</h3>
         
         <a href="userlogin.php" class = "button">Login</a>
+
+        <br>
     </body_x>
     
 </body>

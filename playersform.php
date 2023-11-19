@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
 <?php include('shared/header.php'); ?>
 <div class="container">
-  <h1>Waivers</h1>  
+  <h1>Waivers</h1>
 
   <!-- <a href="simpleform.php">Click to open the next page</a> -->
  
@@ -111,7 +111,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="30%">PlayerName        
     <th width="30%">Position
     <th width="30%">Club     
-    <th width="30%">Nationality 
+    <th width="30%">Nationality
+    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['addBtn'])): ?>
+        <?php $position = $_POST['position']; ?>
+        <?php if ($position == 'Forward'): ?>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Shots</th>
+        <?php elseif ($position == 'Midfielder'): ?>
+            <th>Duels Won</th>
+            <th>Assists</th>
+            <th>Passes</th>
+        <?php elseif ($position == 'Defender'): ?>
+            <th>Clean Sheets</th>
+            <th>Tackle Success (%)</th>
+        <?php elseif ($position == 'Goalkeeper'): ?>
+            <th>Clean Sheets</th>
+            <th>Saves</th>
+        <?php endif; ?>
+    <?php endif; ?> 
     <th>&nbsp;</th>
     <th>&nbsp;</th>
   </tr>
@@ -123,7 +141,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $player['playerName']; ?></td>   <!-- column name --> 
      <td><?php echo $player['position']; ?></td>   
      <td><?php echo $player['club']; ?></td>      
-     <td><?php echo $player['nationality']; ?></td>  
+     <td><?php echo $player['nationality']; ?></td>
+     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['addBtn'])): ?>
+        <?php $position = $_POST['position']; ?>
+        <?php if ($position == 'Forward'): ?>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Shots</th>
+        <?php elseif ($position == 'Midfielder'): ?>
+            <th>Duels Won</th>
+            <th>Assists</th>
+            <th>Passes</th>
+        <?php elseif ($position == 'Defender'): ?>
+            <th>Clean Sheets</th>
+            <th>Tackle Success (%)</th>
+        <?php elseif ($position == 'Goalkeeper'): ?>
+            <th>Clean Sheets</th>
+            <th>Saves</th>
+        <?php endif; ?>
+    <?php endif; ?>    
      <td><input type="submit" value="add" class="btn btn-secondary" /></td>
   </tr>
 <?php endforeach; ?>
