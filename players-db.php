@@ -83,4 +83,25 @@ function filterPlayers($playerName, $position, $club, $nationality, $filterStat,
     $statement->closeCursor();
     return $results;
 }
+
+function addPlayer($userID, $teamName, $playerName){
+    global $db;
+    $query = "INSERT INTO PlayerList (userID, teamName, playerName) VALUES (:userID, :teamName, :playerName)";
+    $statement = $db->prepare($query); 
+
+    if ($userID !== null && !empty($userID)) {
+        $statement->bindValue(':userID', $userID);
+    }
+
+    if ($teamName !== null && !empty($teamName)) {
+        $statement->bindValue(':teamName', $teamName);
+    }
+
+    if ($playerName !== null && !empty($playerName)) {
+        $statement->bindValue(':playerName', $playerName);
+    }
+
+    $statement->execute();
+    $statement->closeCursor();
+}
 ?>

@@ -1,13 +1,14 @@
 <?php
-require("connect-db.php");
-// include("connect-db.php");
-require("players-db.php");
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  if (!empty($_POST['addBtn'])) {
-    echo $_POST['playerName'];
+  require("connect-db.php");
+  // include("connect-db.php");
+  require("players-db.php");
+  session_start();
+  //check if user is logged in
+  if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
+      header("location: userLogin.php");
+      exit;
   }
-}
+
 ?>
 
 
@@ -276,16 +277,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <?php endforeach; ?>
 </table>
 </div>  
-
-
-
-  <!-- CDN for JS bootstrap -->
-  <!-- you may also use JS bootstrap to make the page dynamic -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-  
-  <!-- for local -->
-  <!-- <script src="your-js-file.js"></script> -->  
   
 </div>    
 </body>
 </html>
+
+<?php 
+    $selectedTeam = $_SESSION['teamName'];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if (!empty($_POST['addBtn'])) {
+        addPlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
+      }
+    }
+?>

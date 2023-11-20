@@ -70,6 +70,11 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+
+        <br>
+        
+        <a href="playersForm.php?teamName=<?php echo urlencode($selectedTeam); ?>">Add more players</a>
+        <?php $_SESSION['teamName'] = $selectedTeam ?>
         </body_x>
     </body>
 </html>
