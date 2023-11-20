@@ -3,14 +3,11 @@ require("connect-db.php");
 // include("connect-db.php");
 require("players-db.php");
 
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-// {
-//    if (!empty($_POST['addBtn']))
-//    {
-//       $list_of_players=filterPlayers($_POST['playerName'], $selectedPosition, $_POST['club'], $_POST['nationality']);
-//    }
-// }
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  if (!empty($_POST['addBtn'])) {
+    echo $_POST['playerName'];
+  }
+}
 ?>
 
 
@@ -269,7 +266,12 @@ require("players-db.php");
         <td><?php echo $player['cleanSheets']; ?></td>
         <td><?php echo $player['saves']; ?></td>
     <?php endif; ?>   
-     <td><input type="submit" value="add" class="btn btn-secondary" /></td>
+     <td>
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <input type="hidden" name="playerName" value="<?php echo $player['playerName']; ?>">
+            <input type="submit" name="addBtn" value="Add" class="btn btn-secondary">
+        </form>
+    </td>
   </tr>
 <?php endforeach; ?>
 </table>

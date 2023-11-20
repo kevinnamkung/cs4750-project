@@ -1,18 +1,18 @@
 <?php
-#session_start();
- 
-require("connect-db.php");
-require("userdb.php");
-
-session_start();
+    #session_start();
     
-//check if user is logged in
-if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
-    header("location: userLogin.php");
-    exit;
-}
+    require("connect-db.php");
+    require("userdb.php");
 
+    session_start();
+        
+    //check if user is logged in
+    if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
+        header("location: userLogin.php");
+        exit;
+    }
 
+    $list_of_teams = displayTeams($_SESSION['userID']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@ if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="kevin">
         <meta name="description" content="User Form">  
-        <title>CS 4750 Home</title>
+        <title>User Hub</title>
         <link rel="stylesheet" type="text/css" href="shared/homestyle.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">  
@@ -46,10 +46,16 @@ if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
         <h2>Welcome <?php echo htmlspecialchars($_SESSION["firstName"]); ?>!</h2>
 
         <h3>Your Teams:</h3>
-        
+        <ul>
+            <?php foreach ($list_of_teams as $team): ?>
+                <li>
+                    <a href="teamPlayers.php?team=<?php echo urlencode($team['teamName']); ?>">
+                        <?php echo $team['teamName']; ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
-
-        
     </body_x>
     
 </body>

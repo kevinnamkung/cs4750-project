@@ -108,7 +108,37 @@ function loginUser($email, $password)
 }
 
 function displayTeams($userID){
+    global $db;
+    $query = "SELECT * FROM Owns WHERE userID = :userID";
+
+    $statement = $db->prepare($query); 
+    $statement->bindValue(':userID', $userID);
+    $statement->execute();
+    $results = $statement->fetchAll();   // fetch()
+    $statement->closeCursor();
+    return $results;
+}
+
+function retrieveTeamPlayers($userID, $teamName){
   global $db;
-  $query = "select * from User where email = :email";
+  $query = "SELECT * FROM PlayerList WHERE userID = :userID AND teamName = :teamName";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':userID', $userID);
+  $statement->bindValue(':teamName', $teamName);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;
+}
+
+function findPlayer($playerName){
+  global $db;
+  $query = "SELECT * FROM Players WHERE playerName = :playerName";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':playerName', $playerName);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;
 }
 ?>
