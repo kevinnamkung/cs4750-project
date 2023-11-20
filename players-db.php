@@ -39,7 +39,7 @@ function filterPlayers($playerName, $position, $club, $nationality, $filterStat,
 
     // Add conditions for filtering if criteria are provided
     if ($playerName !== null && !empty($playerName)) {
-        $query .= " AND playerName = :playerName";
+        $query .= " AND playerName LIKE :playerName";
     }
     
     if ($club !== null && !empty($club)) {
@@ -62,7 +62,8 @@ function filterPlayers($playerName, $position, $club, $nationality, $filterStat,
 
     // Bind parameters if they are provided
     if ($playerName !== null && !empty($playerName)) {
-        $statement->bindValue(':playerName', $playerName);
+        $pattern = "%" . $playerName . "%";
+        $statement->bindValue(':playerName', $pattern);
     }
 
     if ($club !== null && !empty($club)) {

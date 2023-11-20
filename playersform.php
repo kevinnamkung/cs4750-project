@@ -241,9 +241,10 @@ require("players-db.php");
     $_POST['sortedStat'],
     $_POST['sortedCrit']);
   $results_length = count($list_of_players);
+
+  echo "<h4>Showing <b>$results_length</b> result(s):</h4>";
 }
 ?>
-<h4>Showing <b><?php echo $results_length ?></b> results:</h4>
 <?php foreach ($list_of_players as $player): ?>
   <tr>
      <td><?php echo $player['playerName']; ?></td>   <!-- column name --> 
