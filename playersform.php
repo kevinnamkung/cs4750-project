@@ -3,20 +3,14 @@ require("connect-db.php");
 // include("connect-db.php");
 require("players-db.php");
 
-// $list_of_friends = ''; 
-$list_of_players = getAllPlayers();
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-   if (!empty($_POST['addBtn']))
-   {
-      //filterPlayers($_POST['playerName'], $_POST['position'], $_POST['club'], $_POST['nationality']);
-      $list_of_players=filterPlayers($_POST['playerName'], $_POST['position'], $_POST['club'], $_POST['nationality']);
-      //$list_of_players = getAllPlayers();    
-      // var_dump($list_of_friends);
-   }
-}
+// if ($_SERVER['REQUEST_METHOD'] == 'POST')
+// {
+//    if (!empty($_POST['addBtn']))
+//    {
+//       $list_of_players=filterPlayers($_POST['playerName'], $selectedPosition, $_POST['club'], $_POST['nationality']);
+//    }
+// }
 ?>
 
 
@@ -41,6 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 align-items: center;
                 justify-content: center;
             }
+            .position-buttons {
+              display: flex;
+              justify-content: space-around;
+              margin: 20px 0;
+            }
+
+            .position-button {
+                padding: 10px;
+                text-decoration: none;
+                color: #333;
+                background-color: #eee;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .position-button.active {
+                background-color: #4285f4;
+                color: #fff;
+            }
         </style>
     </head>
 
@@ -48,23 +61,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <?php include('shared/header.php'); ?>
 <div class="container">
   <h1>Waivers</h1>
+  
+  <h4>Switch Positions:</h4>
+
+  <div class="position-buttons">
+    <?php
+    //check if a position is selected
+    if (isset($_GET['position'])) {
+        $selectedPosition = $_GET['position'];
+    } else {
+        // default to a position (you can change this based on your needs)
+        $selectedPosition = $_POST['selectedPosition'];
+    }
+
+    // Create buttons for different positions
+    $positions = ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'];
+    foreach ($positions as $pos) {
+        // Highlight the selected button
+        $activeClass = ($pos === $selectedPosition) ? 'active' : '';
+
+        //link
+        echo "<a href=\"?position=$pos\" class=\"position-button $activeClass\">$pos</a>";
+    }
+    ?>
+</div>
 
   <!-- <a href="simpleform.php">Click to open the next page</a> -->
  
-  <form name="mainForm" action="playersform.php" method="post">   
+  <form name="mainForm" action="playersform.php" method="post">
+      <h4>Filter based on Attributes:</h4>  
       <div class="row mb-3 mx-3">
         Player name:
         <input type="text" class="form-control" name="playerName" />        
-      </div>  
-      <div class="row mb-3 mx-3">
-        Position:
-        <select class="form-control" name="position">
-            <option value="">Any Position</option>
-            <option value="Forward">Forward</option>
-            <option value="Midfielder">Midfielder</option>
-            <option value="Defender">Defender</option>
-            <option value="Goalkeeper">Goalkeeper</option>
-        </select>       
       </div>  
       <div class="row mb-3 mx-3">
         Club:
@@ -95,71 +123,148 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       <div class="row mb-3 mx-3">
         Nationality:
         <input type="text" class="form-control" name="nationality" />        
-      </div>    
+      </div>
+      <h4>Filter based on Statistic:</h4>
       <div class="row mb-3 mx-3">
-        <input type="submit" value="Filter" name="addBtn" 
+        <div class="form-group d-flex">
+          <div class="mr-2">
+            <select class="form-control" name="filterStat">
+              <?php if ($selectedPosition == 'Forward'): ?>
+                <option value="goals">Goals</option>
+                <option value="assists">Assists</option>
+                <option value="shots">Shots</option>
+              <?php elseif ($selectedPosition == 'Midfielder'): ?>
+                <option value="duelsWon">Duels Won</option>
+                <option value="assists">Assists</option>
+                <option value="passes">Passes</option>
+              <?php elseif ($selectedPosition == 'Defender'): ?>
+                <option value="cleanSheets">Clean Sheets</option>
+                <option value="tackleSuccess">Tackle Success (%)</option>
+              <?php elseif ($selectedPosition == 'Goalkeeper'): ?>
+                <option value="cleanSheets">Clean Sheets</option>
+                <option value="saves">Saves</option>
+              <?php endif; ?>
+            </select>
+          </div>
+          <div class="mr-2">
+            <select class="form-control" name="filterOperator">
+                <option value="=">=</option>
+                <option value=">">></option>
+                <option value="<"><</option>
+            </select>
+          </div>
+          <div>
+            <input type="number" class="form-control" name="filterNumber" />
+          </div>
+        </div>
+      </div>
+      <h4>Sort based on Statistic:</h4>
+      <div class="row mb-3 mx-3">
+        <div class="form-group d-flex">
+          <div class="mr-2">
+            <select class="form-control" name="sortedStat">
+              <?php if ($selectedPosition == 'Forward'): ?>
+                <option value="goals">Goals</option>
+                <option value="assists">Assists</option>
+                <option value="shots">Shots</option>
+              <?php elseif ($selectedPosition == 'Midfielder'): ?>
+                <option value="duelsWon">Duels Won</option>
+                <option value="assists">Assists</option>
+                <option value="passes">Passes</option>
+              <?php elseif ($selectedPosition == 'Defender'): ?>
+                <option value="cleanSheets">Clean Sheets</option>
+                <option value="tackleSuccess">Tackle Success (%)</option>
+              <?php elseif ($selectedPosition == 'Goalkeeper'): ?>
+                <option value="cleanSheets">Clean Sheets</option>
+                <option value="saves">Saves</option>
+              <?php endif; ?>
+            </select>
+          </div>
+          <div class="mr-2">
+            <select class="form-control" name="sortedCrit">
+                <option value="none">None</option>
+                <option value="ASC">Ascending</option>
+                <option value="DESC">Descending</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- hidden input -->
+      <input type="hidden" name="selectedPosition" value="<?php echo htmlspecialchars($selectedPosition); ?>" /> 
+      <div class="row mb-3 mx-3">
+        <input type="submit" value="Filter" name="filterBtn" 
         class="btn btn-primary" title="Filter through Players" />
       </div>
     </form>     
 
 <hr/>
-<h3>List of players</h3>
+<h2>Players</h2>
 <div class="row justify-content-center">  
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="30%">PlayerName        
+    <th width="30%">Player Name        
     <th width="30%">Position
     <th width="30%">Club     
     <th width="30%">Nationality
-    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['addBtn'])): ?>
-        <?php $position = $_POST['position']; ?>
-        <?php if ($position == 'Forward'): ?>
-            <th>Goals</th>
-            <th>Assists</th>
-            <th>Shots</th>
-        <?php elseif ($position == 'Midfielder'): ?>
-            <th>Duels Won</th>
-            <th>Assists</th>
-            <th>Passes</th>
-        <?php elseif ($position == 'Defender'): ?>
-            <th>Clean Sheets</th>
-            <th>Tackle Success (%)</th>
-        <?php elseif ($position == 'Goalkeeper'): ?>
-            <th>Clean Sheets</th>
-            <th>Saves</th>
-        <?php endif; ?>
-    <?php endif; ?> 
+    <?php if ($selectedPosition == 'Forward'): ?>
+        <th>Goals</th>
+        <th>Assists</th>
+        <th>Shots</th>
+    <?php elseif ($selectedPosition == 'Midfielder'): ?>
+        <th>Duels Won</th>
+        <th>Assists</th>
+        <th>Passes</th>
+    <?php elseif ($selectedPosition == 'Defender'): ?>
+        <th>Clean Sheets</th>
+        <th>Tackle Success (%)</th>
+    <?php elseif ($selectedPosition == 'Goalkeeper'): ?>
+        <th>Clean Sheets</th>
+        <th>Saves</th>
+    <?php endif; ?>
     <th>&nbsp;</th>
     <th>&nbsp;</th>
   </tr>
   </thead>
 
-
+<!-- lot of stuff happens here -->
+<?php $list_of_players=filterPlayers(null, $selectedPosition, null, null, null, null, null, null, null); ?>
+<?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['filterBtn'])) {
+  $list_of_players=filterPlayers(
+    $_POST['playerName'], 
+    $_POST['selectedPosition'],
+    $_POST['club'],
+    $_POST['nationality'],
+    $_POST['filterStat'],
+    $_POST['filterOperator'],
+    $_POST['filterNumber'],
+    $_POST['sortedStat'],
+    $_POST['sortedCrit']);
+  $results_length = count($list_of_players);
+}
+?>
+<h4>Showing <b><?php echo $results_length ?></b> results:</h4>
 <?php foreach ($list_of_players as $player): ?>
   <tr>
      <td><?php echo $player['playerName']; ?></td>   <!-- column name --> 
      <td><?php echo $player['position']; ?></td>   
      <td><?php echo $player['club']; ?></td>      
      <td><?php echo $player['nationality']; ?></td>
-     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['addBtn'])): ?>
-        <?php $position = $_POST['position']; ?>
-        <?php if ($position == 'Forward'): ?>
-            <th>Goals</th>
-            <th>Assists</th>
-            <th>Shots</th>
-        <?php elseif ($position == 'Midfielder'): ?>
-            <th>Duels Won</th>
-            <th>Assists</th>
-            <th>Passes</th>
-        <?php elseif ($position == 'Defender'): ?>
-            <th>Clean Sheets</th>
-            <th>Tackle Success (%)</th>
-        <?php elseif ($position == 'Goalkeeper'): ?>
-            <th>Clean Sheets</th>
-            <th>Saves</th>
-        <?php endif; ?>
-    <?php endif; ?>    
+    <?php if ($selectedPosition == 'Forward'): ?>
+        <td><?php echo $player['goals']; ?></td>
+        <td><?php echo $player['shots']; ?></td>
+        <td><?php echo $player['assists']; ?></td>
+    <?php elseif ($selectedPosition == 'Midfielder'): ?>
+        <td><?php echo $player['duelsWon']; ?></td>
+        <td><?php echo $player['assists']; ?></td>
+        <td><?php echo $player['passes']; ?></td>
+    <?php elseif ($selectedPosition == 'Defender'): ?>
+        <td><?php echo $player['cleanSheets']; ?></td>
+        <td><?php echo $player['tackleSuccess']; ?></td>
+    <?php elseif ($selectedPosition == 'Goalkeeper'): ?>
+        <td><?php echo $player['cleanSheets']; ?></td>
+        <td><?php echo $player['saves']; ?></td>
+    <?php endif; ?>   
      <td><input type="submit" value="add" class="btn btn-secondary" /></td>
   </tr>
 <?php endforeach; ?>
