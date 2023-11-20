@@ -70,8 +70,11 @@ require("players-db.php");
     if (isset($_GET['position'])) {
         $selectedPosition = $_GET['position'];
     } else {
-        // default to a position (you can change this based on your needs)
-        $selectedPosition = $_POST['selectedPosition'];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['filterBtn'])) {
+          $selectedPosition = $_POST['selectedPosition'];
+        } else{ 
+          $selectedPosition = "Forward";
+        }
     }
 
     // Create buttons for different positions
