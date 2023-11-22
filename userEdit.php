@@ -9,7 +9,20 @@
         header("location: userLogin.php");
         exit;
     }
-
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
+        // Get form data
+        $newFirstName = htmlspecialchars($_POST["firstName"]);
+        $newLastName = htmlspecialchars($_POST["lastName"]);
+        $newEmail = htmlspecialchars($_POST["email"]);
+    
+        // Update user information in the database
+        updateUser($newFirstName, $newLastName, $newEmail);
+    
+        // Update session variables
+        $_SESSION["firstName"] = $newFirstName;
+        $_SESSION["lastName"] = $newLastName;
+        $_SESSION["email"] = $newEmail;
+    }
 ?>
 
 <html>
