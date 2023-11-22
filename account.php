@@ -45,7 +45,7 @@
             <h5><b>First Name: </b><?php echo htmlspecialchars($_SESSION["firstName"]); ?></h5>
             <h5><b>Last Name: </b><?php echo htmlspecialchars($_SESSION["lastName"]); ?></h5>
             <h5><b>Email: </b><?php echo htmlspecialchars($_SESSION["email"]); ?></h5>
-            <form method="post" action="userEdit.php">
+            <form method="post" action="userCreated.php">
                 <div class="row mb-3 mx-3">
                     <input type = "submit" value = "Update Info" name = "update"
                         class="btn btn-primary" title= "update info" />
