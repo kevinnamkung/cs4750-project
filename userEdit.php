@@ -38,8 +38,29 @@
         <?php include('shared/header.php'); ?>
 
         <body_x>
+        <br>
+            <h2>Edit your Information Below:</h2>
+            
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div class="mb-3 mx-3">
+                <label for="firstName" class="form-label"><b>First Name:</b></label>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="<?php echo htmlspecialchars($_SESSION["firstName"]); ?>">
+            </div>
 
+            <div class="mb-3 mx-3">
+                <label for="lastName" class="form-label"><b>Last Name:</b></label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="<?php echo htmlspecialchars($_SESSION["lastName"]); ?>">
+            </div>
 
+            <div class="mb-3 mx-3">
+                <label for="email" class="form-label"><b>Email:</b></label>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION["email"]); ?>">
+            </div>
+
+            <div class="row mb-3 mx-3">
+                <input type="submit" value="Update Info" name="update" class="btn btn-primary" title="Update info" />
+            </div>
+        </form>
 
 
         </body_x>
