@@ -9,6 +9,7 @@
         header("location: userLogin.php");
         exit;
     }
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
         // Get form data
         $newFirstName = htmlspecialchars($_POST["firstName"]);
@@ -22,7 +23,10 @@
         $_SESSION["firstName"] = $newFirstName;
         $_SESSION["lastName"] = $newLastName;
         $_SESSION["email"] = $newEmail;
+
+        $updateStatusMessage = 'Your information has been successfully updated!';
     }
+    
 ?>
 
 <html>
@@ -53,21 +57,28 @@
         <body_x>
         <br>
             <h2>Edit your Information Below:</h2>
+
+            <!-- Display the update status message if available -->
+        <?php if (!empty($updateStatusMessage)) : ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $updateStatusMessage; ?>
+            </div>
+        <?php endif; ?>
             
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="mb-3 mx-3">
                 <label for="firstName" class="form-label"><b>First Name:</b></label>
-                <input type="text" class="form-control" id="firstName" name="firstName" value="<?php echo htmlspecialchars($_SESSION["firstName"]); ?>">
+                <input type="text" class="form-control" name="firstName" value="<?php echo htmlspecialchars($_SESSION["firstName"]); ?>">
             </div>
 
             <div class="mb-3 mx-3">
                 <label for="lastName" class="form-label"><b>Last Name:</b></label>
-                <input type="text" class="form-control" id="lastName" name="lastName" value="<?php echo htmlspecialchars($_SESSION["lastName"]); ?>">
+                <input type="text" class="form-control" name="lastName" value="<?php echo htmlspecialchars($_SESSION["lastName"]); ?>">
             </div>
 
             <div class="mb-3 mx-3">
                 <label for="email" class="form-label"><b>Email:</b></label>
-                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION["email"]); ?>">
+                <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($_SESSION["email"]); ?>">
             </div>
 
             <div class="row mb-3 mx-3">
