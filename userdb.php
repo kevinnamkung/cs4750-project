@@ -55,7 +55,7 @@ function getAllUsers()
 function updateUser($firstname, $lastname , $email)
 {
     global $db; 
-    $query = "update User set firstname=:firstname, lastname=:lastname where email=:email";
+    $query = "update User set firstname=:firstname, lastname=:lastname, email=:email where email=:email";
 
     $statement = $db->prepare($query); 
     $statement->bindValue(':firstname', $firstname);
