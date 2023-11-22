@@ -9,24 +9,24 @@
         header("location: userLogin.php");
         exit;
     }
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
+    $updateStatusMessage = '';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updateUser"])) {
         // Get form data
         $newFirstName = htmlspecialchars($_POST["firstName"]);
         $newLastName = htmlspecialchars($_POST["lastName"]);
         $newEmail = htmlspecialchars($_POST["email"]);
     
-        // Update user information in the database
-        updateUser($newFirstName, $newLastName, $newEmail);
-    
         // Update session variables
         $_SESSION["firstName"] = $newFirstName;
         $_SESSION["lastName"] = $newLastName;
         $_SESSION["email"] = $newEmail;
-
+    
+        // Update user information in the database
+        updateUser($newFirstName, $newLastName, $newEmail);
+    
         $updateStatusMessage = 'Your information has been successfully updated!';
     }
-    
 ?>
 
 <html>
@@ -56,15 +56,7 @@
 
         <body_x>
         <br>
-            <h2>Edit your Information Below:</h2>
-
-            <!-- Display the update status message if available -->
-        <?php if (!empty($updateStatusMessage)) : ?>
-            <div class="alert alert-success" role="alert">
-                <?php echo $updateStatusMessage; ?>
-            </div>
-        <?php endif; ?>
-            
+            <h2>Edit your Information Below:</h2>      
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="mb-3 mx-3">
                 <label for="firstName" class="form-label"><b>First Name:</b></label>
@@ -82,12 +74,19 @@
             </div>
 
             <div class="row mb-3 mx-3">
-                <input type="submit" value="Update Info" name="update" class="btn btn-primary" title="Update info" />
+                <input type="submit" value="Update Info" name="updateUser" class="btn btn-primary" title="Update info" />
             </div>
         </form>
-
+        <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updateUser"])) : ?>
+            <div class="alert alert-success mb-3 mx-3" role="alert">
+                <?php echo $updateStatusMessage; ?>
+            </div>
+        <?php endif; ?>
 
         </body_x>
     
     </body>
 </html>
+<?php
+ 
+?>
