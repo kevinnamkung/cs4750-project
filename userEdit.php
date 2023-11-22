@@ -23,7 +23,7 @@
         $_SESSION["email"] = $newEmail;
     
         // Update user information in the database
-        updateUser($newFirstName, $newLastName, $newEmail);
+        updateUser($newFirstName, $newLastName, $_SESSION["userID"], $newEmail);
     
         $updateStatusMessage = 'Your information has been successfully updated!';
     }

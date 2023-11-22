@@ -52,14 +52,15 @@ function getAllUsers()
   return $results;
 }
 
-function updateUser($firstname, $lastname , $email)
+function updateUser($firstname, $lastname , $userID, $email)
 {
     global $db; 
-    $query = "update User set firstname=:firstname, lastname=:lastname, email=:email where email=:email";
+    $query = "update User set firstname=:firstname, lastname=:lastname, email=:email where userID=:userID";
 
     $statement = $db->prepare($query); 
     $statement->bindValue(':firstname', $firstname);
     $statement->bindValue(':lastname', $lastname);
+    $statement->bindValue(':userID', $userID);
     $statement->bindValue(':email', $email);
     $statement->execute();
     $statement->closeCursor();
