@@ -10,22 +10,14 @@
         exit;
     }
 
-    // logging out
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-        //reset everything including cookies and destroy session
-        $_SESSION = array();
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {   
+        if (!empty($_POST['createTeam']))
+        {   
+            createTeam($_SESSION['userID'], $_POST['teamName']);
+            header("location: userHub.php");
         }
-
-        session_destroy();
-        header("location: home.php");
-      }
+    } 
 
 ?>
 
@@ -35,7 +27,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="kevin">
         <meta name="description" content="User Form">  
-        <title>User Sign Up</title>
+        <title>Create New Team</title>
         <link rel="stylesheet" type="text/css" href="shared/homestyle.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">  
@@ -50,32 +42,23 @@
             }
         </style>
     </head>
-     
+
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
 
         <body_x>
             <br>
-            <h2>Your Account</h2>
-            <h4>Review your information below:<h4>
-            
-            <h5><b>First Name: </b><?php echo htmlspecialchars($_SESSION["firstName"]); ?></h5>
-            <h5><b>Last Name: </b><?php echo htmlspecialchars($_SESSION["lastName"]); ?></h5>
-            <h5><b>Email: </b><?php echo htmlspecialchars($_SESSION["email"]); ?></h5>
-
-            <br>
-
-            <a href="userEdit.php" class = "button">Update Info</a>
-            
-            <br>
-
-            <form method="post">
+            <h1>Create New Team</h1>
+            <form name="createTeam" method="post">
                 <div class="row mb-3 mx-3">
-                    <input type = "submit" value = "Log Out" name = "logout"
-                        class="btn btn-primary" title= "logout" />
+                    Team Name
+                    <input type="text" class="form-control" name="teamName" required/>
                 </div>
-            </form>
-
+                <div class="row mb-3 mx-3">
+                    <input type = "submit" value = "Create Team" name = "createTeam"
+                        class="btn btn-primary" title= "Create Team" />
+                </div>
+            </form> 
         </body_x>
-    </body>
+    </body> 
 </html>

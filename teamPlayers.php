@@ -2,6 +2,7 @@
     #session_start();
     
     require("connect-db.php");
+    require("players-db.php");
     require("userdb.php");
 
     session_start();
@@ -11,7 +12,6 @@
         header("location: userLogin.php");
         exit;
     }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,6 +67,12 @@
                     <td><?php echo $full_player[0]['position']; ?></td>   
                     <td><?php echo $full_player[0]['club']; ?></td>      
                     <td><?php echo $full_player[0]['nationality']; ?></td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="playerName" value="<?php echo $player['playerName']; ?>">
+                            <input type="submit" name="delBtn" value="Delete" class="btn btn-secondary">
+                        </form>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
@@ -78,3 +84,11 @@
         </body_x>
     </body>
 </html>
+
+<?php 
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if (!empty($_POST['delBtn'])) {
+                deletePlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
+            }
+        }
+?>

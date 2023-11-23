@@ -55,7 +55,7 @@
         </style>
     </head>
 
-<body>
+<body style="background-color: #d4d4dc;">
 <?php include('shared/header.php'); ?>
 <div class="container">
   <h1>Waivers</h1>
@@ -266,13 +266,15 @@
     <?php elseif ($selectedPosition == 'Goalkeeper'): ?>
         <td><?php echo $player['cleanSheets']; ?></td>
         <td><?php echo $player['saves']; ?></td>
-    <?php endif; ?>   
+    <?php endif; ?>
+    <?php if (isset($_SESSION['teamName'])):?>
      <td>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <input type="hidden" name="playerName" value="<?php echo $player['playerName']; ?>">
             <input type="submit" name="addBtn" value="Add" class="btn btn-secondary">
         </form>
     </td>
+    <?php endif; ?>
   </tr>
 <?php endforeach; ?>
 </table>

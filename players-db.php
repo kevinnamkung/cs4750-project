@@ -104,4 +104,25 @@ function addPlayer($userID, $teamName, $playerName){
     $statement->execute();
     $statement->closeCursor();
 }
+
+function deletePlayer($userID, $teamName, $playerName) {
+    global $db;
+    $query = "DELETE FROM PlayerList WHERE userID = :userID AND teamName = :teamName AND playerName = :playerName";
+    $statement = $db->prepare($query); 
+
+    if ($userID !== null && !empty($userID)) {
+        $statement->bindValue(':userID', $userID);
+    }
+
+    if ($teamName !== null && !empty($teamName)) {
+        $statement->bindValue(':teamName', $teamName);
+    }
+
+    if ($playerName !== null && !empty($playerName)) {
+        $statement->bindValue(':playerName', $playerName);
+    }
+
+    $statement->execute();
+    $statement->closeCursor();
+}
 ?>

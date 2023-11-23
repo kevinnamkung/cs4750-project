@@ -60,7 +60,7 @@
             </div>  
             <div class="row mb-3 mx-3">
                 Email:
-                <input type="text" class="form-control" name="email" required/>        
+                <input type="email" class="form-control" name="email" required/>        
             </div>
             <div class="row mb-3 mx-3">
                 Password:

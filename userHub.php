@@ -56,6 +56,8 @@
             <?php endforeach; ?>
         </ul>
 
+        <a href="createTeam.php">Create New Team</a>
+
     </body_x>
     
 </body>

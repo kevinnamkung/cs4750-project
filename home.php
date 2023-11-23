@@ -1,10 +1,28 @@
 <?php
-#session_start();
+session_start();
  
 require("connect-db.php");
 require("userdb.php");
- 
+
+// logging out
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    //reset everything including cookies and destroy session
+    $_SESSION = array();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    session_destroy();
+    header("location: home.php");
+    }
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,12 +67,29 @@ require("userdb.php");
             <li>Filter through hundreds of players and add your favorites to your team</li>
             <li>Look at your friends' teams</li>
         </ol>
-
-        <a href="userform.php" class = "button">Create an account now</a>
-
-        <h3>or</h3>
         
-        <a href="userlogin.php" class = "button">Login</a>
+        <?php
+        if (isset($_SESSION["logged"]) && $_SESSION["logged"] == true) {
+            $name = $_SESSION["firstName"];
+            echo "<h3>Logged in as <b>$name</b></h3>";
+
+            echo '<br>';
+
+            echo '<form method="post">
+                    <div class="row mb-3 mx-3">
+                        <input type = "submit" value = "Log Out" name = "logout"
+                            class="btn btn-primary" title= "logout" />
+                    </div>
+                </form>';
+        } else {
+            ?>
+            <a href="userform.php" class="button">Create an account now</a>
+            <h3>or</h3>
+            <a href="userlogin.php" class="button">Login</a>
+            <?php
+        }
+        ?>
+
 
         <br>
     </body_x>
