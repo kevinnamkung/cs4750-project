@@ -1,5 +1,6 @@
 <?php
     #session_start();
+    
     require("connect-db.php");
     require("players-db.php");
     require("userdb.php");
@@ -11,13 +12,7 @@
         header("location: userLogin.php");
         exit;
     }
-
-    $userID = htmlspecialchars($_GET['userID']);
-    $userData = retrieveUserData($userID);
-    $firstName = $userData[0]['firstName'];
-    $lastName = $userData[0]['lastName'];
 ?>
-
 
 
 <!DOCTYPE html>
@@ -27,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="kevin">
         <meta name="description" content="User Form">  
-        <title>Other User</title>
+        <title>Other Players</title>
         <link rel="stylesheet" type="text/css" href="shared/homestyle.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">  
@@ -44,33 +39,37 @@
     </head>
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
-        <div class="container">
         <body_x>
             <br>
-            <?php echo "<h2> $firstName's Teams </h2>" ?>
+        <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+            <thead>
+                <tr style="background-color:#B0B0B0">
+                <th width="30%">Player Name        
+                <th width="30%">Position
+                <th width="30%">Club     
+                <th width="30%">Nationality
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                </tr>
+            </thead>
             <?php
-                if (isset($_GET['userID'])) {
-                    $list_of_teams=displayTeams($userID);
-                    if (!empty($list_of_teams)) {
-                        echo '<ul>';
-                        foreach ($list_of_teams as $team) {
-                            echo '<li>';
-                            echo '<a href="otherPlayers.php?userID=' . urlencode($userID) . '&team=' . urlencode($team['teamName']) . '">';
-                            echo $team['teamName'];
-                            echo '</a>';
-                            echo '</li>';
-                        }
-                        echo '</ul>';
-                    } else {
-                        echo "No teams found for $firstName";
-                    }
-                } else {
-                    // Handle the case when the user ID is not present in the URL
-                    echo "Something went wrong";
-                }
-                ?>
+            $selectedTeam = urldecode($_GET['team']);
+            $selectedUser = urldecode($_GET['userID']);
+            $players = retrieveTeamPlayers($selectedUser, $selectedTeam);
 
-            <br>
+            echo '<h2>Team: ' . htmlspecialchars($selectedTeam) . '</h2>';
+            ?>
+            <?php foreach ($players as $player): ?>
+                <?php $full_player = findPlayer($player['playerName']); ?>
+                <tr>
+                    <td><?php echo $full_player[0]['playerName']; ?></td>
+                    <td><?php echo $full_player[0]['position']; ?></td>   
+                    <td><?php echo $full_player[0]['club']; ?></td>      
+                    <td><?php echo $full_player[0]['nationality']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+
         </body_x>
     </body>
 </html>

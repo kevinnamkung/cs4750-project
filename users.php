@@ -18,7 +18,6 @@
         if (!empty($_POST['userTeamsBtn'])) {
           deletePlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
           $player = $_POST['playerName'];
-          $status_message = "$player deleted successfuly";
         }
       }
 ?>
