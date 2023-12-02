@@ -13,6 +13,20 @@
         exit;
     }
 ?>
+
+<?php 
+    $selectedTeam = urldecode($_GET['team']);
+    $status_message = "";
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if (!empty($_POST['delBtn'])) {
+        deletePlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
+        $player = $_POST['playerName'];
+        $status_message = "$player deleted successfuly";
+      }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +52,12 @@
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
         <body_x>
+            <br>
+            <?php if (!empty($status_message)): ?>
+                <div class="alert alert-danger mb-3 mx-3" role="alert">
+                    <?php echo $status_message; ?>
+                </div>
+             <?php endif; ?>
         <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
             <thead>
                 <tr style="background-color:#B0B0B0">
@@ -51,13 +71,9 @@
             </thead>
             <?php
             // Check if the team parameter is set
-            // if (isset($_GET['team'])) {
             $selectedTeam = urldecode($_GET['team']);
-            
-            // Fetch and display players for the selected team
             $players = retrieveTeamPlayers($_SESSION['userID'], $selectedTeam);
 
-            // Output HTML to display players
             echo '<h2>Team: ' . htmlspecialchars($selectedTeam) . '</h2>';
             ?>
             <?php foreach ($players as $player): ?>
@@ -84,11 +100,3 @@
         </body_x>
     </body>
 </html>
-
-<?php 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if (!empty($_POST['delBtn'])) {
-                deletePlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
-            }
-        }
-?>

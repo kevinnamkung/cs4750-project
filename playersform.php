@@ -11,7 +11,17 @@
 
 ?>
 
-
+<?php 
+    $selectedTeam = $_SESSION['teamName'];
+    $status_message = "";
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if (!empty($_POST['addBtn'])) {
+        addPlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
+        $player = $_POST['playerName'];
+        $status_message = "$player added successfuly!";
+      }
+    }
+?>
 
 <!DOCTYPE html>
 <html>
@@ -60,6 +70,12 @@
 <div class="container">
   <h1>Waivers</h1>
   
+  <?php if (!empty($status_message)): ?>
+        <div class="alert alert-success mb-3 mx-3" role="alert">
+            <?php echo $status_message; ?>
+        </div>
+    <?php endif; ?>
+
   <h4>Switch Positions:</h4>
 
   <div class="position-buttons">
@@ -78,7 +94,7 @@
     // Create buttons for different positions
     $positions = ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'];
     foreach ($positions as $pos) {
-        // Highlight the selected button
+        //highlight the selected button
         $activeClass = ($pos === $selectedPosition) ? 'active' : '';
 
         //link
@@ -283,12 +299,3 @@
 </div>    
 </body>
 </html>
-
-<?php 
-    $selectedTeam = $_SESSION['teamName'];
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-      if (!empty($_POST['addBtn'])) {
-        addPlayer($_SESSION['userID'], $selectedTeam, $_POST['playerName']);
-      }
-    }
-?>

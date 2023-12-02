@@ -158,4 +158,15 @@ function createTeam($userID, $teamName) {
   $statement->execute();
   $statement->closeCursor();
 }
+
+function retrieveUsers($userID){
+  global $db;
+  $query = "SELECT * FROM User WHERE userID <> :userID";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':userID', $userID);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;
+}
 ?>
