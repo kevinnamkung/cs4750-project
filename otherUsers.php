@@ -39,19 +39,34 @@
     </head>
     <body style="background-color: #d4d4dc;">
         <?php include('shared/header.php'); ?>
-        <body_x>
-            <br>
-            <?php
+        <div class="container">
+        <h1>
+        <?php
                 if (isset($_GET['userID'])) {
                     //get userID form url
                     $userID = htmlspecialchars($_GET['userID']);
-                    echo "Welcome: $userID";
+                    echo "Viewing $userID 's squad";
                 } else {
                     // Handle the case when the user ID is not present in the URL
                     echo "Something went wrong";
                 }
                 ?>
-
+        </h1>
+        <body_x>
+            <br>
+            <?php
+                if (isset($_GET['userID'])) {
+                    $userID = htmlspecialchars($_GET['userID']);
+                    $list_of_teams=displayTeams($userID['userID']);
+                    echo $list_of_teams;
+                    //get userID form url
+                    //$userID = htmlspecialchars($_GET['userID']);
+                    //echo "Viewing $userID 's squad";
+                } else {
+                    // Handle the case when the user ID is not present in the URL
+                    echo "Something went wrong";
+                }
+                ?>
 
             <br>
         </body_x>
