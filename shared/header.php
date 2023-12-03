@@ -12,7 +12,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="userHub.php">Hub</a>
                     </li>
                     <li class="nav-item">

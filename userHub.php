@@ -34,6 +34,55 @@
                 align-items: center;
                 justify-content: center;
             }
+
+            .team-list-container {
+        margin-top: 20px; /* Add margin to create space between header and list */
+    }
+
+    .team-list-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .team-list {
+        list-style-type: none;
+        padding: 10px;
+        margin: 5px;
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .team-item {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 5px;
+        background-color: white;
+        font-weight: bold;
+        position: relative;
+    }
+
+    .team-link {
+        text-decoration: none;
+        color: #333;
+    }
+
+    .team-link:hover {
+        color: #0066cc;
+    }
+
+    .team-item:not(:last-child)::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+    }
+
         </style>
     </head>
 <body style="background-color: #d4d4dc;">
@@ -45,18 +94,22 @@
         
         <h2>Welcome <?php echo htmlspecialchars($_SESSION["firstName"]); ?>!</h2>
 
-        <h3>Your Teams:</h3>
-        <ul>
-            <?php foreach ($list_of_teams as $team): ?>
-                <li>
-                    <a href="teamPlayers.php?team=<?php echo urlencode($team['teamName']); ?>">
-                        <?php echo $team['teamName']; ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <div class="team-list-container">
+            <div class="team-list-title">Your Teams</div>
+            <ul class="team-list">
+                <?php foreach ($list_of_teams as $team): ?>
+                    <li class="team-item">
+                        <a class="team-link" href="teamPlayers.php?team=<?= urlencode($team['teamName']); ?>">
+                            <?= $team['teamName']; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
 
-        <button onclick="location.href='createTeam.php'" type="button" class="btn btn-primary">Create New Team</button>
+    <button onclick="location.href='createTeam.php'" type="button" class="btn btn-primary">Create New Team</button>
+
+
 
     </body_x>
     
