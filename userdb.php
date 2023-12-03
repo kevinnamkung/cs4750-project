@@ -24,7 +24,7 @@ function addUser($firstname, $lastname, $email, $pw) {
     $statement2 = $db->prepare($query2);
     $statement2->bindValue(":email", $email);
     $statement2->execute();
-    $results = $statement->fetchAll();   // fetch()
+    $results = $statement2->fetchAll();   // fetch()
     $statement2->closeCursor();
     
     session_start();
@@ -174,7 +174,13 @@ function createTeam($userID, $teamName) {
       $statement->bindValue(':teamName', $teamName);
   }
 
-  $statement->execute();
+  try {
+    $statement->execute();
+    return true; // or return the new team's ID
+} catch (PDOException $e) {
+    error_log("Error in createTeam: " . $e->getMessage());
+    return false;
+}
   $statement->closeCursor();
 }
 

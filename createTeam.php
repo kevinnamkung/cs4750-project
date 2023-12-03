@@ -1,9 +1,11 @@
 <?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
     require("connect-db.php");
     require("userdb.php");
 
     session_start();
-    
+
     //check if user is logged in
     if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
         header("location: userLogin.php");
@@ -14,7 +16,14 @@
     {   
         if (!empty($_POST['createTeam']))
         {   
+            echo "UserID: " . $_SESSION['userID'];
             createTeam($_SESSION['userID'], $_POST['teamName']);
+            if (!empty($_POST['createTeam'])) {   
+                $result = createTeam($_SESSION['userID'], $_POST['teamName']);
+                echo "Create Team Result: " . ($result ? "Success" : "Failure");
+                // Remove the below line after debugging
+                exit; // Temporarily prevent redirection to see the result
+            }
             header("location: userHub.php");
         }
     } 

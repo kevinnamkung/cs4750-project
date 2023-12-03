@@ -3,6 +3,7 @@
   // include("connect-db.php");
   require("players-db.php");
   session_start();
+  
   //check if user is logged in
   if(!isset($_SESSION["logged"]) && $_SESSION["logged"] == false){
       header("location: userLogin.php");
