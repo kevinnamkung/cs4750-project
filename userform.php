@@ -16,8 +16,11 @@
                 $message_pass = "Passwords do not match";
             } else {
                 addUser($_POST['firstname'], $_POST['lastname'], $_POST['email'], $password);
+                $email=$_POST['email'];
+                grantUserPrivileges($email);
             }
         }
+
     } 
 ?>
 

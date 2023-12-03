@@ -5,7 +5,7 @@ function addUser($firstname, $lastname, $email, $pw) {
   $hashedPassword = password_hash($pw, PASSWORD_DEFAULT);
   
   $query = "INSERT INTO User (firstname, lastname, email, hashed_password) VALUES (:firstname, :lastname, :email, :hashed_password)";
-
+  
   try{
     // Prepare the SQL query
     $statement = $db->prepare($query);
@@ -26,18 +26,37 @@ function addUser($firstname, $lastname, $email, $pw) {
     $statement2->execute();
     $results = $statement->fetchAll();   // fetch()
     $statement2->closeCursor();
-
+    
     session_start();
     $_SESSION['logged'] = true;
     $_SESSION['firstName'] = $firstname;
     $_SESSION['lastName'] = $lastname;
     $_SESSION['email'] = $email;
     $_SESSION['userID'] = $results[0]['userID'];
-    
+
     header("location: userCreated.php");
   } catch (PDOException $e) {
     // Handle any database errors here, e.g., log the error, display an error message, etc.
     error_log("Error: " . $e->getMessage());
+  }
+}
+function grantUserPrivileges($email){
+  global $db;
+  
+  $query= "GRANT SELECT, INSERT, UPDATE, DELETE ON User TO '$email'@'localhost'";
+
+  try{
+      $result = $db-> query($query);
+
+      if ($result){
+        return true;
+      }
+      else{
+        return false;
+      }
+  }
+  catch(Exception $e){
+    return false;
   }
 }
 
