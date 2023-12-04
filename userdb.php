@@ -205,4 +205,16 @@ function retrieveUserData($userID){
   $statement->closeCursor();
   return $results;
 }
+
+function getCannotViewOthers($current_userID) {
+  global $db;
+  $query = "SELECT userID1 FROM CanView WHERE userID2 = :currentUserID";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':currentUserID', $current_userID);
+  $statement->execute();
+  $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+  $statement->closeCursor();
+  return $results;
+}
+
 ?>

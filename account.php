@@ -69,6 +69,10 @@
             
             <br>
 
+            <a href="manage-canview.php" class="btn btn-primary">Select who can view your teams</a>
+            
+            <br>
+
             <form method="post">
                 <div class="row mb-3 mx-3">
                     <input type = "submit" value = "Log Out" name = "logout"

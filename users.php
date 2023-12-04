@@ -13,6 +13,10 @@
     }
 
     $list_of_users = retrieveUsers($_SESSION["userID"]);
+    $usersWhoRestrictedCurrent = getCannotViewOthers($_SESSION["userID"]);
+    $list_of_users = array_filter($list_of_users, function($user) use ($usersWhoRestrictedCurrent) {
+        return !in_array($user['userID'], $usersWhoRestrictedCurrent);
+    });
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!empty($_POST['userTeamsBtn'])) {
